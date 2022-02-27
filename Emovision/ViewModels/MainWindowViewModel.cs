@@ -11,6 +11,9 @@ using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
+using Emovision.Models.VideoCapture;
+using Emovision.Models.VideoCapture.Api;
+using System.Runtime.InteropServices;
 
 namespace Emovision.ViewModels
 {
@@ -42,9 +45,14 @@ namespace Emovision.ViewModels
 
         private CancellationTokenSource _cts;
         
+        public DeviceInfoCollection Devices { get; }
+
         public MainWindowViewModel()
         {
+            Devices = Driver.Create().AvailableDevices;
+
             _bitmap = new(Path.Combine(Environment.CurrentDirectory, "ai.jpg"));
+            
             _vc = VideoCapture.FromCamera(0);
             if (!_vc.IsOpened())
             {

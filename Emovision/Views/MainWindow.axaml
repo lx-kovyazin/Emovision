@@ -13,6 +13,7 @@
     </Design.DataContext>
 
     <StackPanel>
+        <ComboBox Items="{Binding Devices}"/>
         <Image Width="{Binding CapWidth}" Height="{Binding CapHeight}" Stretch="Uniform" Source="{Binding Bmp}"/>
         <Button Content="{Binding CapStateString}" Command="{Binding OnStartCaptureClickCommand}"/>
         <Button Content="Stop capturing" Command="{Binding OnStopCaptureClickCommand}"/>

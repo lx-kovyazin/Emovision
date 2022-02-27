@@ -7,6 +7,7 @@ namespace Emovision.Models.VideoCapture.Api
     {
         public VideoCaptureAPIs Api => VideoCaptureAPIs.DSHOW;
 
-        public DeviceInfoCollection AvailableDevices => throw new System.NotImplementedException();
+        public DeviceInfoCollection AvailableDevices =>
+            throw new System.NotImplementedException();
     }
 }

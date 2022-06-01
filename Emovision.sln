@@ -1,22 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emovision", "Emovision\Emovision.csproj", "{8F45800A-A613-4E40-A72E-DEF43D7C222D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emovision", "Emovision\Emovision.csproj", "{8F45800A-A613-4E40-A72E-DEF43D7C222D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmovisionBlazor", "EmovisionBlazor\EmovisionBlazor.csproj", "{22729C38-10A0-4D80-A423-22D330320954}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8F45800A-A613-4E40-A72E-DEF43D7C222D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8F45800A-A613-4E40-A72E-DEF43D7C222D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F45800A-A613-4E40-A72E-DEF43D7C222D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F45800A-A613-4E40-A72E-DEF43D7C222D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22729C38-10A0-4D80-A423-22D330320954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22729C38-10A0-4D80-A423-22D330320954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22729C38-10A0-4D80-A423-22D330320954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22729C38-10A0-4D80-A423-22D330320954}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04679685-03E4-4CA4-9604-F3FD58875E10}
 	EndGlobalSection
 EndGlobal

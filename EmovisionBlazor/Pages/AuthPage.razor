@@ -1,0 +1,28 @@
+﻿@page "/authorization"
+<PageTitle>@Title</PageTitle>
+
+<div class="text-center">
+    <form class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal">@Title</h1>
+        <div class="form-floating mb-3">
+            <label for="inputUser" class="mb-2 oi oi-person"><span class="ms-1">Пользователь</span></label>
+            <input type="text" id="inputUser" class="form-control" placeholder="Введите имя пользователя" required autofocus>
+        </div>
+        <div class="form-floating">
+            <label for="inputPassword" class="mb-2 oi oi-key"><span class="ms-1">Пароль</span></label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Введите пароль" required>
+        </div>
+        <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Запомнить
+        </label>
+        </div>
+        <div class="btn-group-vertical" role="group" aria-label="Authorization button group">
+            <a role="button" class="btn btn-outline-secondary" href="/registration">Регистрация</a>
+            <button type="button" class="btn btn-primary">Войти</button>
+        </div>
+    </form>
+</div>
+@code {
+    const string Title = "Авторизация";
+}

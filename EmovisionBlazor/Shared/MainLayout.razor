@@ -1,0 +1,29 @@
+﻿@using EmovisionBlazor.Components
+@inherits LayoutComponentBase
+
+<PageTitle>Emovision</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <nav class="navbar navbar-light bg-light">
+		    <div class="navbar-brand">Title</div>
+            <div class="d-flex">
+                <LoginDisplay />
+                @*<a href="/about">About</a>*@
+                <a role="button" class="btn btn-outline-info oi oi-question-mark" href="/about"></a>
+            </div>
+        </nav>
+@*        <div class="top-row">
+            <LoginDisplay />
+            <a href="/about">About</a>
+        </div>*@
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

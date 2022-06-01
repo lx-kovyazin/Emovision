@@ -1,0 +1,65 @@
+﻿@using EmovisionBlazor.Domain.Video
+
+@inject IJSRuntime JSRuntime
+@inject IWebHostEnvironment Environment
+
+<div>
+	<div class="btn-group" role="group" aria-label="Source selector button group">
+		@foreach (var descr in _sourceDescrs)
+		{
+			<button	type="button"
+					class="btn @descr.ButtonStyle btn-lg oi @descr.Icon"
+					@onclick="_ => OnClick(descr)"
+					><span class="ms-1">@descr.Name</span></button>
+		}
+	</div>
+	<FileUploader Dir="@_fileDir" OnUploaded="OnUploaded" />
+</div>
+
+
+@code {
+	[Parameter]
+	public EventCallback<Source> SourceSelected { get; set; }
+
+	private record struct SourceDescriptor(Type Type, Func<Source> Factory, string ButtonStyle, string Icon)
+	{
+		public string Name { get => Type.Name; }
+	}
+
+	private SourceDescriptor[]? _sourceDescrs;
+
+	private string _fileDir = string.Empty;
+
+	protected override void OnInitialized()
+	{
+		_fileDir = Path.Combine(
+			Environment.WebRootPath,
+			Environment.EnvironmentName,
+			"uploads/user/"
+		);
+		_sourceDescrs = new SourceDescriptor[]
+		{
+			new(typeof(Camera), () => new Camera(), "btn-primary", "oi-video"),
+			new(typeof(File), () => CreateFile(), "btn-secondary", "oi-file"),
+		};
+		base.OnInitialized();
+	}
+
+	private Source CreateFile()
+	{
+		string metaFilePath = Path.Combine(_fileDir, "meta");
+		if (!System.IO.File.Exists(metaFilePath))
+			throw new FileNotFoundException(nameof(metaFilePath));
+		using StreamReader sr = new(metaFilePath);
+		return new File(Path.Combine(Environment.EnvironmentName, "uploads/user/", sr.ReadLine()!));
+	}
+
+	private void OnUploaded() => Console.WriteLine(nameof(OnUploaded));
+
+	private void OnClick(SourceDescriptor descr)
+	{
+		var source = descr.Factory.Invoke();
+		source.ConfigureAsync(JSRuntime);
+		SourceSelected.InvokeAsync(source);
+	}
+}

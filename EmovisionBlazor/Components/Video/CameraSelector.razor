@@ -1,0 +1,32 @@
+﻿@*@using EmovisionBlazor.Domain.Video
+@inherits CameraSelectorViewModel
+
+<div>
+	<label>Select a camera:</label>
+	<select class="form-select" aria-label="Default select example" @bind="SelectedCameraId">
+		@if (cameraList is not null)
+		@foreach (var camera in cameraList)
+		{
+			<option value="@camera.DeviceInfo.DeviceId">@camera.DeviceInfo.Name</option>
+		}
+	</select>
+</div>
+
+@code {
+	private string SelectedCameraId { get; set; } = string.Empty;
+
+	private Camera? _selectedCamera = null;
+	private Camera? SelectedCamera {
+		get => _selectedCamera;
+		set {
+			_selectedCamera = value;
+			if (_selectedCamera is not null)
+				CameraSelected.InvokeAsync(_selectedCamera);
+		}
+	}
+
+	[Parameter]
+	public EventCallback<Camera> CameraSelected { get; set; }
+
+}
+*@

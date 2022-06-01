@@ -7,19 +7,22 @@
 </button>
 
 @code {
-    [Parameter, EditorRequired]
-    public EmovisionState State { get; set; }
+	[Parameter, EditorRequired]
+	public EmovisionState State { get; set; }
 
-    [Parameter]
-    public EventCallback ClickAsync { get; set; }
+	[Parameter]
+	public EventCallback Click { get; set; }
 
-    private Dictionary<EmovisionState, (string Title, string Style, bool IsDisabled)> StateView = new()
+	private Dictionary<EmovisionState, (string Title, string Style, bool IsDisabled)> StateView = new()
 		{
 			[EmovisionState.Stopped] = ("Начать", "success", false),
 			[EmovisionState.SelectingSource] = ("Выбор источника", "warning", true),
-			[EmovisionState.SourceSelected] = ("Источник выбран", "warning", true),
+			[EmovisionState.SourceSelected] = ("Продолжить", "warning", false),
 			[EmovisionState.Started] = ("Остановить", "danger", false),
 		};
 
-    private async Task OnClickAsync() => await ClickAsync.InvokeAsync();
+	private async Task OnClickAsync()
+	{
+		await Click.InvokeAsync();
+	}
 }

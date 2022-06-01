@@ -13,7 +13,10 @@
 					><span class="ms-1">@descr.Name</span></button>
 		}
 	</div>
-	<FileUploader Dir="@_fileDir" OnUploaded="OnUploaded" />
+	@if (_fileIsSelected)
+	{
+		<FileUploader Dir="@_fileDir" OnUploaded="OnUploaded" />
+	}
 </div>
 
 
@@ -54,12 +57,31 @@
 		return new File(Path.Combine(Environment.EnvironmentName, "uploads/user/", sr.ReadLine()!));
 	}
 
-	private void OnUploaded() => Console.WriteLine(nameof(OnUploaded));
+	private bool _fileIsSelected = false;
 
-	private void OnClick(SourceDescriptor descr)
+	private SourceDescriptor currentDescr;
+
+	private async Task OnClick(SourceDescriptor descr)
 	{
-		var source = descr.Factory.Invoke();
-		source.ConfigureAsync(JSRuntime);
-		SourceSelected.InvokeAsync(source);
+		currentDescr = descr;
+		if (!currentDescr.Type.Equals(typeof(File)))
+		{
+			await Complete();
+		}
+		else
+		{
+			_fileIsSelected = true;
+		}
+	}
+
+	private async Task Complete()
+	{
+		var source = currentDescr.Factory.Invoke();
+		await SourceSelected.InvokeAsync(source);
+	}
+
+	private async Task OnUploaded()
+	{
+		await Complete();
 	}
 }

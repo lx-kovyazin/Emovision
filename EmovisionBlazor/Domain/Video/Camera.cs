@@ -7,6 +7,8 @@ public class Camera
 		: base("setupCameraSource")
 	{ }
 
+	protected override object[] Args => Array.Empty<object>();
+
 	//        public Camera(MediaDeviceInfo deviceInfo)
 	//            : this(deviceInfo, CameraSettings.Default)
 	//        { }

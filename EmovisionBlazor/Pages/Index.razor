@@ -22,7 +22,7 @@
 					<SourceSelector SourceSelected="OnSourceSelected" />
 					break;
 
-				case EmovisionState.Started:
+				case EmovisionState.SourceSelected:
 					<SourcePreview Source="_source" />
 					break;
 			}
@@ -30,7 +30,7 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<EmovisionButton State="_state" ClickAsync="OnClick"/>
+			<EmovisionButton State="_state" Click="OnClick"/>
 		</div>
 	</div>
 
@@ -46,28 +46,15 @@
 				@*<SourcePreview/>*@
 @code {
 	const string Title = "Emovision";
+
 	bool IsStarted = false;
 
 	private EmovisionState _state = EmovisionState.Stopped;
 
 	private Source? _source = null;
 
-	private void SwitchState() => _state = _state switch
+	public void OnClick()
 	{
-		EmovisionState.Stopped => EmovisionState.SelectingSource,
-		EmovisionState.SelectingSource => EmovisionState.SourceSelected,
-		EmovisionState.SourceSelected => EmovisionState.Started,
-		EmovisionState.Started => EmovisionState.Stopped,
-		_ => throw new Exception("Unexpected state!")
-	};
-
-	public async Task OnClick()
-	{
-		if (_state is EmovisionState.Started)
-		{
-			await _source.StopAsync();
-			_source.Reset();
-		}
 		SwitchState();
 	}
 
@@ -76,11 +63,24 @@
 		base.OnInitialized();
 	}
 
+	private void SwitchState()
+	{
+		_state = _state switch
+		{
+			EmovisionState.Stopped => EmovisionState.SelectingSource,
+			EmovisionState.SelectingSource => EmovisionState.SourceSelected,
+			EmovisionState.SourceSelected => EmovisionState.Started,
+			EmovisionState.Started => EmovisionState.Stopped,
+			_ => EmovisionState.Stopped
+		};
+		StateHasChanged();
+	}
+
 	private async Task OnSourceSelected(Source source)
 	{
 		Console.WriteLine($"{nameof(OnSourceSelected)}: {source}");
 		_source = source;
-		_state = EmovisionState.SourceSelected;
+		SwitchState();
 	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -88,9 +88,16 @@
 		if (firstRender)
 		{
 		}
+
 		if (_state is EmovisionState.SourceSelected)
 		{
 			await _source.StartAsync();
+			SwitchState();
+		}
+		if (_state is EmovisionState.Started)
+		{
+			await _source.StopAsync();
+			_source.Reset();
 			SwitchState();
 		}
 	}

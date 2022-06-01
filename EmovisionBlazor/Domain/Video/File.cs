@@ -10,4 +10,6 @@ public class File
     }
 
     public string Path { get; init; }
+
+	protected override object[] Args => new object[] { Path };
 }

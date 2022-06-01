@@ -14,6 +14,7 @@ function setupCameraSource(videoElementId) {
             } else {
                 video.src = window.URL.createObjectURL(mediaStream);
             }
+            //return getSettings();
             //stream = mediaStream;
 
 
@@ -31,6 +32,7 @@ function setupFileSource(videoElementId, filePath) {
     video = document.getElementById(videoElementId);
     video.setAttribute('src', filePath);
     video.load();
+/*    return getSettings();*/
     //stream = video.captureStream();
 
 
@@ -77,8 +79,7 @@ function captureFrame() {
         .catch(errHandler);
 }
 
-function getSettings(videoElementId) {
-    video = document.getElementById(videoElementId);
+function getSettings() {
     const stream = video.captureStream();
     const track = stream.getVideoTracks()[0];
     return track.getSettings();

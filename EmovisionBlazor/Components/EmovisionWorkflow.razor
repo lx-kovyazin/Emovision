@@ -1,0 +1,106 @@
+﻿@using EmovisionBlazor.Components
+@using EmovisionBlazor.Components.Video
+@using EmovisionBlazor.Domain
+@using EmovisionBlazor.Domain.Video
+@using Newtonsoft.Json;
+@inject IJSRuntime Js
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			@switch (_state)
+			{
+				case EmovisionState.Stopped:
+					<span>Начните работу.</span>
+					break;
+
+				case EmovisionState.SelectingSource:
+					<SourceSelector SourceSelected="OnSourceSelected" />
+					break;
+
+				case EmovisionState.SourceSelected:
+					<SourcePreview Source="_source" />
+					break;
+			}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<EmovisionButton State="_state" Click="OnClick"/>
+		</div>
+	</div>
+
+@*			@if (_state is EmovisionState.Started)
+			{
+				<SourceSelector OnSelectedSource="OnSelectedSource" />
+				<FileUploader Dir="@_fileDir" OnUploaded="OnUploaded" />
+				<SourcePreview Source="_source" />
+			}
+			<EmovisionButton State="_state" ClickAsync="OnClick"/>*@
+</div>
+				@*<CameraSelector CameraSelected="CameraSelected"/>*@
+				@*<SourcePreview/>*@
+@code {
+	const string Title = "Emovision";
+
+	bool IsStarted = false;
+
+	private EmovisionState _state = EmovisionState.Stopped;
+
+	private Source? _source = null;
+
+	public void OnClick()
+	{
+		SwitchState();
+	}
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+	}
+
+	private void SwitchState()
+	{
+		_state = _state switch
+		{
+			EmovisionState.Stopped => EmovisionState.SelectingSource,
+			EmovisionState.SelectingSource => EmovisionState.SourceSelected,
+			EmovisionState.SourceSelected => EmovisionState.Started,
+			EmovisionState.Started => EmovisionState.Stopped,
+			_ => EmovisionState.Stopped
+		};
+		StateHasChanged();
+	}
+
+	private async Task OnSourceSelected(Source source)
+	{
+		Console.WriteLine($"{nameof(OnSourceSelected)}: {source}");
+		_source = source;
+		SwitchState();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+		}
+
+		if (_state is EmovisionState.SourceSelected)
+		{
+			await _source.StartAsync();
+			SwitchState();
+		}
+		if (_state is EmovisionState.Started)
+		{
+			await _source.StopAsync();
+			_source.Reset();
+			SwitchState();
+		}
+	}
+
+
+	//   private void CameraSelected(Camera camera)
+	//   {
+	//	Console.WriteLine($"A selected camera: {camera.DeviceInfo.Name}.");
+		//}
+}

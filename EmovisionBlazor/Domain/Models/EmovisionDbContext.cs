@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace EmovisionBlazor.Domain.Models
 {
-    public partial class EmovisionDbContext : DbContext
+    public partial class EmovisionDbContext
+        : IdentityDbContext<User>
     {
         public EmovisionDbContext(DbContextOptions<EmovisionDbContext> options)
             : base(options)
@@ -17,7 +19,6 @@ namespace EmovisionBlazor.Domain.Models
         public virtual DbSet<RecognitionProcess> RecognitionProcesses { get; set; } = null!;
         public virtual DbSet<RecognitionResult> RecognitionResults { get; set; } = null!;
         public virtual DbSet<Session> Sessions { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {

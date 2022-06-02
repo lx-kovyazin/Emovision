@@ -3,9 +3,12 @@
         <a href="Identity/Account/Manage">Hello, @context.User.Identity?.Name!</a>
         <form method="post" action="Identity/Account/LogOut">
             <button type="submit" class="nav-link btn btn-link">Log out</button>
+            <a role="button" class="btn btn-primary oi oi-account-login" href="/">Выйти</a>
         </form>
     </Authorized>
     <NotAuthorized>
-        <a role="button" class="btn btn-primary oi oi-account-login" href="/authorization"></a>
+        <a role="button" class="btn btn-primary oi oi-account-login" href="/authorization">
+            <span class="ms-1">Войти</span>
+        </a>
     </NotAuthorized>
 </AuthorizeView>

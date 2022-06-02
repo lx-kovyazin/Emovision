@@ -7,6 +7,7 @@ namespace EmovisionBlazor.Domain.Models
     /// Таблица пользователя системы.
     /// </summary>
     public partial class User
+        : Microsoft.AspNetCore.Identity.IdentityUser
     {
         public User()
         {

@@ -1,6 +1,46 @@
 ﻿@page "/registration"
+@using EmovisionBlazor.Domain.Models
+@using System.ComponentModel.DataAnnotations
 <PageTitle>@Title</PageTitle>
-// TODO
+
+<EditForm Model="newUser" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText id="@nameof(newUser.Name)" @bind-Value="newUser.Name"/>
+    <InputText id="@nameof(newUser.PasswordSha256)" @bind-Value="newUser.PasswordSha256"/>
+
+    <button type="submit">Зарегистрироваться</button>
+</EditForm>
+
 @code {
+
+    class IdentityUser
+    {
+        private readonly User? _user;
+
+        [Required]
+        [StringLength(10, ErrorMessage = "Name is too long.")]
+        public string? Name { get; set; }
+
+        public IdentityUser()
+            : base(null)
+        {
+
+        }
+
+        public IdentityUser(User? user)
+        {
+            _user = user;
+        }
+    }
+
+    private User newUser = new();
+
     const string Title = "Регистрация";
+
+
+    private void OnValidSubmit()
+    {
+
+    }
 }
